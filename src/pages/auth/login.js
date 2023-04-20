@@ -57,7 +57,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Login | Devias Kit</title>
+        <title>Login | Bond Capital House</title>
       </Head>
       <Box
         sx={{

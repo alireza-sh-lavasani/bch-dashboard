@@ -10,40 +10,32 @@ import {
   TextField,
   Unstable_Grid2 as Grid,
   MenuItem,
+  InputAdornment,
+  Icon,
+  SvgIcon,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers";
-
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-  {
-    value: "los-angeles",
-    label: "Los Angeles",
-  },
-];
+import {
+  centralSecuritiesDepository,
+  couponDates,
+  dayCountFraction,
+  denominationCurrencies,
+  interestPaymentFrequency,
+  interestType,
+  issueMethods,
+  redemption,
+} from "./contract-constants";
+import { PencilIcon } from "@heroicons/react/24/solid";
 
 export const ContractForm = () => {
-  const { register, handleSubmit, reset, control } = useForm();
-
-  const [values, setValues] = useState({
-    firstName: "Anika",
-    lastName: "Visser",
-    email: "demo@devias.io",
-    phone: "",
-    state: "los-angeles",
-    country: "USA",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -72,6 +64,23 @@ export const ContractForm = () => {
 
             <Divider sx={{ margin: "1.5rem 0", borderColor: "#aaa" }} />
 
+            <Grid xs={12}>
+              <TextField
+                fullWidth
+                label="Title"
+                {...register("title")}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SvgIcon>
+                        <PencilIcon />
+                      </SvgIcon>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+
             <Grid container spacing={3}>
               <Grid xs={12} md={4}>
                 <Controller
@@ -93,9 +102,14 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Issue Price"
-                  {...register("issuePrice")}
+                  {...register("issuePrice", { min: 0, max: 100 })}
                   required
                   type="number"
+                  error={errors?.issuePrice}
+                  helperText={errors?.issuePrice ? "Issue price must be in range of 0 - 100" : ""}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                  }}
                 />
               </Grid>
 
@@ -107,13 +121,233 @@ export const ContractForm = () => {
                   {...register("issueMethod")}
                   required
                 >
-                  <MenuItem key={1} value="test">
-                    Test
-                  </MenuItem>
-                  <MenuItem key={2} value="test2">
-                    Test 02
-                  </MenuItem>
+                  {issueMethods.map(({ title, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
                 </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Denomination Currency"
+                  {...register("denominationCurrency")}
+                  required
+                >
+                  {denominationCurrencies.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  label="Maximum Amount to be Created"
+                  {...register("maxAmount", { min: 0 })}
+                  required
+                  type="number"
+                  error={errors?.maxAmount}
+                  helperText={errors?.maxAmount ? "Input should be a positive number" : ""}
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  label="Specified Denomination"
+                  {...register("nominalValue", { min: 0 })}
+                  required
+                  type="number"
+                  error={errors?.nominalValue}
+                  helperText={
+                    errors?.nominalValue ? "Input should be a positive number" : "Nominal Value"
+                  }
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Central Securities Depository"
+                  {...register("centralSecuritiesDepository")}
+                  required
+                >
+                  {centralSecuritiesDepository.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <Controller
+                  name="scheduledMaturityDate"
+                  control={control}
+                  rules={{ required: true }}
+                  style={{ width: "100%" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      label="Scheduled Maturity Date"
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          required: true,
+                          error: true,
+                          helperText: "We have to discuss about this one",
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  label="Redemption Price"
+                  {...register("redemptionPrice", { min: 0, max: 100 })}
+                  required
+                  type="number"
+                  error={errors?.redemptionPrice}
+                  helperText={
+                    errors?.redemptionPrice ? "Redemption price must be in range of 0 - 100" : ""
+                  }
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                  }}
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField select fullWidth label="Redemption" {...register("redemption")} required>
+                  {redemption.map(({ title, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Interest Type"
+                  {...register("interestType")}
+                  required
+                >
+                  {interestType.map(({ title, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  fullWidth
+                  label="Interest Rate"
+                  {...register("interestRate", { min: 0, max: 100 })}
+                  required
+                  type="number"
+                  error={errors?.interestRate}
+                  helperText={
+                    errors?.interestRate ? "Interest rate must be in range of 0 - 100" : ""
+                  }
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                  }}
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Day Count Fraction"
+                  {...register("dayCountFraction")}
+                  required
+                >
+                  {dayCountFraction.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Frequency of Interest Payments"
+                  {...register("interestPaymentFrequency")}
+                  required
+                >
+                  {interestPaymentFrequency.map(({ title, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Coupon Dates"
+                  {...register("couponDates")}
+                  required
+                >
+                  {couponDates.map(({ title, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <Controller
+                  name="firstCouponDate"
+                  control={control}
+                  rules={{ required: true }}
+                  style={{ width: "100%" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      label="First Coupon Date"
+                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid xs={12} md={4}>
+                <Controller
+                  name="lastCouponDate"
+                  control={control}
+                  rules={{ required: true }}
+                  style={{ width: "100%" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      label="Last Coupon Date"
+                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                    />
+                  )}
+                />
               </Grid>
             </Grid>
           </Box>
@@ -123,7 +357,7 @@ export const ContractForm = () => {
 
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Button variant="contained" type="submit">
-            Save details
+            Submit
           </Button>
         </CardActions>
       </Card>

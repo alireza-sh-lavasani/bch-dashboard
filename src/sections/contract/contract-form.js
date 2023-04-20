@@ -9,8 +9,10 @@ import {
   Divider,
   TextField,
   Unstable_Grid2 as Grid,
+  MenuItem,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const states = [
   {
@@ -32,7 +34,7 @@ const states = [
 ];
 
 export const ContractForm = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control } = useForm();
 
   const [values, setValues] = useState({
     firstName: "Anika",
@@ -45,15 +47,8 @@ export const ContractForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    reset();
+    // reset();
   };
-
-  const handleChange = useCallback((event) => {
-    setValues((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  }, []);
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
@@ -79,12 +74,18 @@ export const ContractForm = () => {
 
             <Grid container spacing={3}>
               <Grid xs={12} md={4}>
-                <TextField
-                  fullWidth
-                  label="Issue Date"
-                  {...register("issueDate")}
-                  required
-                  type="date"
+                <Controller
+                  name="issueDate"
+                  control={control}
+                  rules={{ required: true }}
+                  style={{ width: "100%" }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      label="Issue Date"
+                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                    />
+                  )}
                 />
               </Grid>
 
@@ -99,67 +100,21 @@ export const ContractForm = () => {
               </Grid>
 
               <Grid xs={12} md={4}>
-                <TextField fullWidth label="Issue Method" {...register("issueMethod")} required />
-              </Grid>
-
-              {/* <Grid xs={12} md={6}>
                 <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                />
-                </Grid>
-                <Grid xs={12} md={6}>
-                <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                />
-                </Grid>
-                <Grid xs={12} md={6}>
-                <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                />
-                </Grid>
-                <Grid xs={12} md={6}>
-                <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
+                  select
+                  fullWidth
+                  label="Issue Method"
+                  {...register("issueMethod")}
+                  required
                 >
-                {states.map((option) => (
-                  <option key={option.value} value={option.value}>
-                  {option.label}
-                  </option>
-                  ))}
+                  <MenuItem key={1} value="test">
+                    Test
+                  </MenuItem>
+                  <MenuItem key={2} value="test2">
+                    Test 02
+                  </MenuItem>
                 </TextField>
-              </Grid> */}
+              </Grid>
             </Grid>
           </Box>
         </CardContent>

@@ -11,7 +11,7 @@ export const issueMethods = [
 
 export const denominationCurrencies = ["EUR", "USD", "GBP", "CHF", "JPY", "RUB"];
 
-export const centralSecuritiesDepository = ["Clearstream   ", "Euroclear  ", "SIX"];
+export const centralSecuritiesDepository = ["Clearstream", "Euroclear", "SIX"];
 
 export const redemption = [
   {
@@ -47,39 +47,38 @@ export const dayCountFraction = ["30/360", "ACT/ACT"];
 
 export const interestPaymentFrequency = [
   {
-    title: 'Weekly',
-    value: 'WEEKLY'
+    title: "Weekly",
+    value: "WEEKLY",
   },
   {
-    title: 'Monthly',
-    value: 'MONTHLY'
+    title: "Monthly",
+    value: "MONTHLY",
   },
   {
-    title: 'Quarterly',
-    value: 'QUARTERLY'
+    title: "Quarterly",
+    value: "QUARTERLY",
   },
   {
-    title: 'Semi-Annually',
-    value: 'SEMI_ANNUALLY'
+    title: "Semi-Annually",
+    value: "SEMI_ANNUALLY",
   },
   {
-    title: 'Yearly',
-    value: 'YEARLY'
+    title: "Yearly",
+    value: "YEARLY",
   },
   {
-    title: 'Other',
-    value: 'OTHER'
+    title: "Other",
+    value: "OTHER",
   },
-]
+];
 
 export const couponDates = [
   {
-    title: 'Adjusted',
-    value: 'ADJUSTED'
+    title: "Adjusted",
+    value: "ADJUSTED",
   },
   {
-    title: 'Unadjusted',
-    value: 'UNADJUSTED'
+    title: "Unadjusted",
+    value: "UNADJUSTED",
   },
-  
-]
+];

@@ -27,6 +27,7 @@ import {
   redemption,
 } from "./contract-constants";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import dayjs from "dayjs";
 
 export const ContractForm = () => {
   const {
@@ -39,11 +40,14 @@ export const ContractForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    // axios.post('/api/contract', data)
     // reset();
   };
 
+  console.log(errors);
+
   return (
-    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader subheader="Instrument Parameters" title="Contract Form" />
         <CardContent sx={{ pt: 0 }}>
@@ -69,6 +73,8 @@ export const ContractForm = () => {
                 fullWidth
                 label="Title"
                 {...register("title")}
+                error={errors?.title}
+                helperText={errors?.title ? "Required field" : ""}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -86,13 +92,22 @@ export const ContractForm = () => {
                 <Controller
                   name="issueDate"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: "Required field" }}
                   style={{ width: "100%" }}
+                  defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="Issue Date"
-                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          required
+                          error={errors?.issueDate}
+                          helperText={errors?.issueDate && errors?.issueDate?.message}
+                        />
+                      )}
                     />
                   )}
                 />
@@ -102,18 +117,29 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Issue Price"
-                  {...register("issuePrice", { min: 0, max: 100 })}
+                  {...register("issuePrice", {
+                    min: {
+                      value: 0,
+                      message: "Issue price must be in range of 0 - 100"
+                    },
+                    max: {
+                      value: 100,
+                      message: "Issue price must be in range of 0 - 100"
+                    },
+                    valueAsNumber: true,
+                    required: "Required field",
+                  })}
                   required
                   type="number"
                   error={errors?.issuePrice}
-                  helperText={errors?.issuePrice ? "Issue price must be in range of 0 - 100" : ""}
+                  helperText={errors?.issuePrice && errors?.issuePrice?.message}
                   InputProps={{
                     endAdornment: <InputAdornment position="end">%</InputAdornment>,
                   }}
                 />
               </Grid>
 
-              <Grid xs={12} md={4}>
+              {/* <Grid xs={12} md={4}>
                 <TextField
                   select
                   fullWidth
@@ -149,7 +175,7 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Maximum Amount to be Created"
-                  {...register("maxAmount", { min: 0 })}
+                  {...register("maxAmount", { min: 0, valueAsNumber: true })}
                   required
                   type="number"
                   error={errors?.maxAmount}
@@ -161,7 +187,7 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Specified Denomination"
-                  {...register("nominalValue", { min: 0 })}
+                  {...register("nominalValue", { min: 0, valueAsNumber: true })}
                   required
                   type="number"
                   error={errors?.nominalValue}
@@ -193,18 +219,20 @@ export const ContractForm = () => {
                   control={control}
                   rules={{ required: true }}
                   style={{ width: "100%" }}
+                  defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="Scheduled Maturity Date"
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          required: true,
-                          error: true,
-                          helperText: "We have to discuss about this one",
-                        },
-                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          required
+                          error
+                          helperText="We have to discuss about this one"
+                        />
+                      )}
                     />
                   )}
                 />
@@ -214,7 +242,7 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Redemption Price"
-                  {...register("redemptionPrice", { min: 0, max: 100 })}
+                  {...register("redemptionPrice", { min: 0, max: 100, valueAsNumber: true })}
                   required
                   type="number"
                   error={errors?.redemptionPrice}
@@ -257,7 +285,7 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Interest Rate"
-                  {...register("interestRate", { min: 0, max: 100 })}
+                  {...register("interestRate", { min: 0, max: 100, valueAsNumber: true })}
                   required
                   type="number"
                   error={errors?.interestRate}
@@ -324,11 +352,12 @@ export const ContractForm = () => {
                   control={control}
                   rules={{ required: true }}
                   style={{ width: "100%" }}
+                  defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="First Coupon Date"
-                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                      renderInput={(params) => <TextField {...params} fullWidth required />}
                     />
                   )}
                 />
@@ -340,15 +369,16 @@ export const ContractForm = () => {
                   control={control}
                   rules={{ required: true }}
                   style={{ width: "100%" }}
+                  defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="Last Coupon Date"
-                      slotProps={{ textField: { fullWidth: true, required: true } }}
+                      renderInput={(params) => <TextField {...params} fullWidth required />}
                     />
                   )}
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
           </Box>
         </CardContent>

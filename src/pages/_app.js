@@ -9,6 +9,7 @@ import { useNProgress } from 'src/hooks/use-nprogress';
 import { createTheme } from 'src/theme';
 import { createEmotionCache } from 'src/utils/create-emotion-cache';
 import 'simplebar-react/dist/simplebar.min.css';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -34,7 +35,7 @@ const App = (props) => {
           content="initial-scale=1, width=device-width"
         />
       </Head>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <AuthProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />

@@ -35,11 +35,12 @@ handler.get(async (req, res) => {
 handler.post(async (req, res) => {
   try {
     await dbConnect();
-    const { title } = req.body;
+    console.log(req.body);
 
-    const contract = await Contract.create({ title });
+    const contract = await Contract.create(req.body);
 
-    res.status(201).json(contract);
+    if (contract) res.status(201).json(contract);
+    res.status(500);
   } catch (error) {
     console.error(error);
     res.status(500);

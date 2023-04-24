@@ -120,11 +120,11 @@ export const ContractForm = () => {
                   {...register("issuePrice", {
                     min: {
                       value: 0,
-                      message: "Issue price must be in range of 0 - 100"
+                      message: "Value must be in range of 0 - 100",
                     },
                     max: {
                       value: 100,
-                      message: "Issue price must be in range of 0 - 100"
+                      message: "Value must be in range of 0 - 100",
                     },
                     valueAsNumber: true,
                     required: "Required field",
@@ -139,13 +139,15 @@ export const ContractForm = () => {
                 />
               </Grid>
 
-              {/* <Grid xs={12} md={4}>
+              <Grid xs={12} md={4}>
                 <TextField
                   select
                   fullWidth
                   label="Issue Method"
-                  {...register("issueMethod")}
+                  {...register("issueMethod", { required: "Required field" })}
                   required
+                  error={errors?.issueMethod}
+                  helperText={errors?.issueMethod && errors?.issueMethod?.message}
                 >
                   {issueMethods.map(({ title, value }) => (
                     <MenuItem key={value} value={value}>
@@ -160,8 +162,10 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Denomination Currency"
-                  {...register("denominationCurrency")}
+                  {...register("denominationCurrency", { required: "Required field" })}
                   required
+                  error={errors?.denominationCurrency}
+                  helperText={errors?.denominationCurrency && errors?.denominationCurrency?.message}
                 >
                   {denominationCurrencies.map((item) => (
                     <MenuItem key={item} value={item}>
@@ -175,11 +179,18 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Maximum Amount to be Created"
-                  {...register("maxAmount", { min: 0, valueAsNumber: true })}
+                  {...register("maxAmount", {
+                    min: {
+                      value: 0,
+                      message: "Input should be a positive number",
+                    },
+                    valueAsNumber: true,
+                    required: "Required field",
+                  })}
                   required
                   type="number"
                   error={errors?.maxAmount}
-                  helperText={errors?.maxAmount ? "Input should be a positive number" : ""}
+                  helperText={errors?.maxAmount && errors?.maxAmount?.message}
                 />
               </Grid>
 
@@ -187,13 +198,18 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Specified Denomination"
-                  {...register("nominalValue", { min: 0, valueAsNumber: true })}
+                  {...register("nominalValue", {
+                    min: {
+                      value: 0,
+                      message: "Input should be a positive number",
+                    },
+                    valueAsNumber: true,
+                    required: "Required field",
+                  })}
                   required
                   type="number"
                   error={errors?.nominalValue}
-                  helperText={
-                    errors?.nominalValue ? "Input should be a positive number" : "Nominal Value"
-                  }
+                  helperText={errors?.nominalValue && errors?.nominalValue?.message}
                 />
               </Grid>
 
@@ -202,8 +218,13 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Central Securities Depository"
-                  {...register("centralSecuritiesDepository")}
+                  {...register("centralSecuritiesDepository", { required: "Required field" })}
                   required
+                  error={errors?.centralSecuritiesDepository}
+                  helperText={
+                    errors?.centralSecuritiesDepository &&
+                    errors?.centralSecuritiesDepository?.message
+                  }
                 >
                   {centralSecuritiesDepository.map((item) => (
                     <MenuItem key={item} value={item}>
@@ -217,7 +238,7 @@ export const ContractForm = () => {
                 <Controller
                   name="scheduledMaturityDate"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: "Required field" }}
                   style={{ width: "100%" }}
                   defaultValue={null}
                   render={({ field }) => (
@@ -231,6 +252,8 @@ export const ContractForm = () => {
                           required
                           error
                           helperText="We have to discuss about this one"
+                          // error={errors?.scheduledMaturityDate}
+                          // helperText={errors?.scheduledMaturityDate && errors?.scheduledMaturityDate?.message}
                         />
                       )}
                     />
@@ -242,13 +265,22 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Redemption Price"
-                  {...register("redemptionPrice", { min: 0, max: 100, valueAsNumber: true })}
+                  {...register("redemptionPrice", {
+                    min: {
+                      value: 0,
+                      message: "Value must be in range of 0 - 100",
+                    },
+                    max: {
+                      value: 100,
+                      message: "Value must be in range of 0 - 100",
+                    },
+                    valueAsNumber: true,
+                    required: "Required field",
+                  })}
                   required
                   type="number"
                   error={errors?.redemptionPrice}
-                  helperText={
-                    errors?.redemptionPrice ? "Redemption price must be in range of 0 - 100" : ""
-                  }
+                  helperText={errors?.redemptionPrice && errors?.redemptionPrice?.message}
                   InputProps={{
                     endAdornment: <InputAdornment position="end">%</InputAdornment>,
                   }}
@@ -256,7 +288,15 @@ export const ContractForm = () => {
               </Grid>
 
               <Grid xs={12} md={4}>
-                <TextField select fullWidth label="Redemption" {...register("redemption")} required>
+                <TextField
+                  select
+                  fullWidth
+                  label="Redemption"
+                  {...register("redemption", { required: "Required field" })}
+                  required
+                  error={errors?.redemption}
+                  helperText={errors?.redemption && errors?.redemption?.message}
+                >
                   {redemption.map(({ title, value }) => (
                     <MenuItem key={value} value={value}>
                       {title}
@@ -270,8 +310,10 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Interest Type"
-                  {...register("interestType")}
+                  {...register("interestType", { required: "Required field" })}
                   required
+                  error={errors?.interestType}
+                  helperText={errors?.interestType && errors?.interestType?.message}
                 >
                   {interestType.map(({ title, value }) => (
                     <MenuItem key={value} value={value}>
@@ -285,13 +327,22 @@ export const ContractForm = () => {
                 <TextField
                   fullWidth
                   label="Interest Rate"
-                  {...register("interestRate", { min: 0, max: 100, valueAsNumber: true })}
+                  {...register("interestRate", {
+                    min: {
+                      value: 0,
+                      message: "Value must be in range of 0 - 100",
+                    },
+                    max: {
+                      value: 100,
+                      message: "Value must be in range of 0 - 100",
+                    },
+                    valueAsNumber: true,
+                    required: "Required field",
+                  })}
                   required
                   type="number"
                   error={errors?.interestRate}
-                  helperText={
-                    errors?.interestRate ? "Interest rate must be in range of 0 - 100" : ""
-                  }
+                  helperText={errors?.interestRate && errors?.interestRate?.message}
                   InputProps={{
                     endAdornment: <InputAdornment position="end">%</InputAdornment>,
                   }}
@@ -303,8 +354,10 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Day Count Fraction"
-                  {...register("dayCountFraction")}
+                  {...register("dayCountFraction", { required: "Required field" })}
                   required
+                  error={errors?.dayCountFraction}
+                  helperText={errors?.dayCountFraction && errors?.dayCountFraction?.message}
                 >
                   {dayCountFraction.map((item) => (
                     <MenuItem key={item} value={item}>
@@ -319,8 +372,12 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Frequency of Interest Payments"
-                  {...register("interestPaymentFrequency")}
+                  {...register("interestPaymentFrequency", { required: "Required field" })}
                   required
+                  error={errors?.interestPaymentFrequency}
+                  helperText={
+                    errors?.interestPaymentFrequency && errors?.interestPaymentFrequency?.message
+                  }
                 >
                   {interestPaymentFrequency.map(({ title, value }) => (
                     <MenuItem key={value} value={value}>
@@ -335,8 +392,10 @@ export const ContractForm = () => {
                   select
                   fullWidth
                   label="Coupon Dates"
-                  {...register("couponDates")}
+                  {...register("couponDates", { required: "Required field" })}
                   required
+                  error={errors?.couponDates}
+                  helperText={errors?.couponDates && errors?.couponDates?.message}
                 >
                   {couponDates.map(({ title, value }) => (
                     <MenuItem key={value} value={value}>
@@ -350,14 +409,22 @@ export const ContractForm = () => {
                 <Controller
                   name="firstCouponDate"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: "Required field" }}
                   style={{ width: "100%" }}
                   defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="First Coupon Date"
-                      renderInput={(params) => <TextField {...params} fullWidth required />}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          required
+                          error={errors?.firstCouponDate}
+                          helperText={errors?.firstCouponDate && errors?.firstCouponDate?.message}
+                        />
+                      )}
                     />
                   )}
                 />
@@ -367,18 +434,26 @@ export const ContractForm = () => {
                 <Controller
                   name="lastCouponDate"
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: "Required field" }}
                   style={{ width: "100%" }}
                   defaultValue={null}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       label="Last Coupon Date"
-                      renderInput={(params) => <TextField {...params} fullWidth required />}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          fullWidth
+                          required
+                          error={errors?.lastCouponDate}
+                          helperText={errors?.lastCouponDate && errors?.lastCouponDate?.message}
+                        />
+                      )}
                     />
                   )}
                 />
-              </Grid> */}
+              </Grid>
             </Grid>
           </Box>
         </CardContent>

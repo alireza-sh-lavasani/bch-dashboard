@@ -7,7 +7,7 @@ import { ContractForm } from "src/sections/contract/contract-form";
 const Page = () => (
   <>
     <Head>
-      <title>Bond Capital House | Contract</title>
+      <title>Bond Capital House | New Issuance</title>
     </Head>
     <Box
       component="main"
@@ -19,7 +19,7 @@ const Page = () => (
       <Container maxWidth="lg">
         <Stack spacing={3}>
           <div>
-            <Typography variant="h4">Contract</Typography>
+            <Typography variant="h4">New Issue</Typography>
           </div>
           <div>
             <Grid container spacing={3}>

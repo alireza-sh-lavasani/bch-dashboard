@@ -1,19 +1,23 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Types } from "mongoose";
 
 const ContractSchema = new Schema(
   {
-    title: {
+    name: {
+      type: String,
+      required: true,
+    },
+    country: {
       type: String,
       required: true,
     },
     issueDate: {
       type: Date,
-      require: true,
+      required: true,
     },
     issuePrice: {
       type: Number,
       min: [0, "value must be in range of 0 - 100"],
-      min: [100, "value must be in range of 0 - 100"],
+      max: [100, "value must be in range of 0 - 100"],
       required: true,
     },
     issueMethod: {
@@ -36,25 +40,28 @@ const ContractSchema = new Schema(
       min: [0, "value must be greater than 0"],
       required: true,
     },
+    minInvestmentSize: {
+      type: Number,
+      min: [0, "value must be greater than 0"],
+      required: true,
+    },
     centralSecuritiesDepository: {
       type: String,
       enum: ["Clearstream", "Euroclear", "SIX"],
       required: true,
     },
-    scheduledMaturityDate: {
+    maturityDate: {
       type: Date,
-      require: true,
+      required: true,
     },
     redemptionPrice: {
       type: Number,
       min: [0, "value must be in range of 0 - 100"],
-      min: [100, "value must be in range of 0 - 100"],
-      required: true,
+      max: [100, "value must be in range of 0 - 100"],
     },
     redemption: {
       type: String,
       enum: ["UNDER_PAR", "AT_PAR"],
-      required: true,
     },
     interestType: {
       type: String,
@@ -64,13 +71,12 @@ const ContractSchema = new Schema(
     interestRate: {
       type: Number,
       min: [0, "value must be in range of 0 - 100"],
-      min: [100, "value must be in range of 0 - 100"],
+      max: [100, "value must be in range of 0 - 100"],
       required: true,
     },
     dayCountFraction: {
       type: String,
       enum: ["30/360", "ACT/ACT"],
-      required: true,
     },
     interestPaymentFrequency: {
       type: String,
@@ -80,15 +86,12 @@ const ContractSchema = new Schema(
     couponDates: {
       type: String,
       enum: ["ADJUSTED", "UNADJUSTED"],
-      required: true,
     },
     firstCouponDate: {
       type: Date,
-      require: true,
     },
     lastCouponDate: {
       type: Date,
-      require: true,
     },
     file: {
       type: String,

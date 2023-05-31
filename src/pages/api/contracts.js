@@ -25,7 +25,7 @@ handler.get(async (req, res) => {
     res.status(200).json(contracts);
   } catch (error) {
     console.error(error);
-    res.status(400);
+    throw error;
   }
 });
 
@@ -35,15 +35,13 @@ handler.get(async (req, res) => {
 handler.post(async (req, res) => {
   try {
     await dbConnect();
-    console.log(req.body);
 
     const contract = await Contract.create(req.body);
 
     if (contract) res.status(201).json(contract);
-    res.status(500);
   } catch (error) {
     console.error(error);
-    res.status(500);
+    res.status(error?.status || 500).json({ error: error?.message || "Internal server error!" });
   }
 });
 

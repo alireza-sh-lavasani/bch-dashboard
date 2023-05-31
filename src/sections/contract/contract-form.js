@@ -17,6 +17,7 @@ import {
   AccordionSummary,
   Typography,
   AccordionDetails,
+  CircularProgress,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -32,7 +33,8 @@ import {
 } from "./contract-constants";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { toast } from "react-toastify";
 
 export const ContractForm = () => {
   const {
@@ -40,20 +42,37 @@ export const ContractForm = () => {
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    axios.post("/api/contract", data);
-    // reset();
+  const onSubmit = (submittedData) => {
+    return new Promise((resolve) => {
+      setTimeout(async () => {
+        let cleanedData = {};
+
+        // Remove empty fileds from data
+        Object.keys(submittedData).forEach((key) => {
+          if (submittedData[key]) cleanedData[key] = submittedData[key];
+        });
+
+        try {
+          await axios.post("/api/contracts", cleanedData);
+          toast.success("Contract submitted successfully.");
+        } catch (error) {
+          toast.error("Failed to add the contract.");
+        }
+        // reset();
+
+        resolve();
+      }, 1000);
+    });
   };
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader subheader="Instrument Parameters" />
-        <CardContent sx={{ pt: 0 }}>
+        {/* <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={6}>
               <Grid xs={4} md={4}>
@@ -264,6 +283,32 @@ export const ContractForm = () => {
                   }
                 />
               </Grid>
+            </Grid>
+
+            <Grid xs={12} md={6}>
+              <TextField
+                fullWidth
+                label="Issue Price"
+                {...register("issuePrice", {
+                  min: {
+                    value: 0,
+                    message: "Value must be in range of 0 - 100",
+                  },
+                  max: {
+                    value: 100,
+                    message: "Value must be in range of 0 - 100",
+                  },
+                  valueAsNumber: true,
+                  required: "Required field",
+                })}
+                required
+                type="number"
+                error={errors?.issuePrice}
+                helperText={errors?.issuePrice && errors?.issuePrice?.message}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
+              />
             </Grid>
 
             <CardHeader
@@ -539,43 +584,19 @@ export const ContractForm = () => {
                       }}
                     />
                   </Grid>
-
-                  <Grid xs={12} md={6}>
-                    <TextField
-                      fullWidth
-                      label="Issue Price"
-                      {...register("issuePrice", {
-                        min: {
-                          value: 0,
-                          message: "Value must be in range of 0 - 100",
-                        },
-                        max: {
-                          value: 100,
-                          message: "Value must be in range of 0 - 100",
-                        },
-                        valueAsNumber: true,
-                        required: "Required field",
-                      })}
-                      required
-                      type="number"
-                      error={errors?.issuePrice}
-                      helperText={errors?.issuePrice && errors?.issuePrice?.message}
-                      InputProps={{
-                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                      }}
-                    />
-                  </Grid>
                 </Grid>
               </AccordionDetails>
             </Accordion>
           </Box>
-        </CardContent>
+        </CardContent> */}
 
         <Divider />
 
+        <input {...register("name")} />
+
         <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained" type="submit">
-            Submit
+          <Button variant="contained" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <CircularProgress /> : "SUBMIT"}
           </Button>
         </CardActions>
       </Card>

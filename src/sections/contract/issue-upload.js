@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useRef, useState } from "react";
 
-export const ContractUpload = () => {
+export const IssueUpload = () => {
   const fileRef = useRef();
 
   const [file, setFile] = useState();
@@ -25,7 +25,7 @@ export const ContractUpload = () => {
           }}
         >
           <Typography gutterBottom variant="h5">
-            Please upload the contract file
+            Please upload the issue file
           </Typography>
           <Typography color="text.secondary" variant="body2">
             {file?.name}
@@ -53,7 +53,7 @@ export const ContractUpload = () => {
             }
           }}
         >
-          Upload Contract File
+          Upload Issue File
         </Button>
       </CardActions>
     </Card>

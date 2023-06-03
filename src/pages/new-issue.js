@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { Box, Container, Stack, Typography, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { ContractUpload } from "src/sections/contract/contract-upload";
-import { ContractForm } from "src/sections/contract/contract-form";
+import { IssueForm } from "src/sections/contract/issue-form"
+import { IssueUpload } from "src/sections/contract/issue-upload"
 
 const Page = () => (
   <>
@@ -24,10 +24,10 @@ const Page = () => (
           <div>
             <Grid container spacing={3}>
               <Grid xs={12}>
-                <ContractForm />
+                <IssueForm />
               </Grid>
               <Grid xs={12}>
-                <ContractUpload />
+                <IssueUpload />
               </Grid>
             </Grid>
           </div>

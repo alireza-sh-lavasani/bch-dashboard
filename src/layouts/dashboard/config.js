@@ -19,8 +19,8 @@ export const items = [
     ),
   },
   {
-    title: "Contract",
-    path: "/contract",
+    title: "New Issue",
+    path: "/new-issue",
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
@@ -28,8 +28,8 @@ export const items = [
     ),
   },
   {
-    title: 'Customers',
-    path: '/customers',
+    title: 'Issues',
+    path: '/issues',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />

@@ -1,7 +1,22 @@
 import { Schema, model, models, Types } from "mongoose";
 
-const ContractSchema = new Schema(
+const IssueSchema = new Schema(
   {
+    isin: {
+      type: String,
+      required: true,
+      default: 'XXX'
+    },
+    cfi: {
+      type: String,
+      required: true,
+      default: 'XXX'
+    },
+    fisn: {
+      type: String,
+      required: true,
+      default: 'XXX'
+    },
     name: {
       type: String,
       required: true,
@@ -102,4 +117,4 @@ const ContractSchema = new Schema(
   }
 );
 
-export const Contract = models.Contract || model("Contract", ContractSchema);
+export const Issue = models.Issue || model("Issue", IssueSchema);

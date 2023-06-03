@@ -1,6 +1,6 @@
 import nextConnect from "next-connect";
 import dbConnect from "src/mongo/dbConnect";
-import { Contract } from "src/mongo/models/contract.schema";
+import { Issue } from "src/mongo/models/issue.schema"
 
 const handler = nextConnect({
   onError: (err, req, res, next) => {
@@ -15,14 +15,14 @@ const handler = nextConnect({
 // handler.use(); // apply middlewares
 
 /**************************************
- ******** Get contracts
+ ******** Get Issues
  *************************************/
 handler.get(async (req, res) => {
   try {
     await dbConnect();
 
-    const contracts = await Contract.find({});
-    res.status(200).json(contracts);
+    const issue = await Issue.find({});
+    res.status(200).json(issue);
   } catch (error) {
     console.error(error);
     throw error;
@@ -30,15 +30,15 @@ handler.get(async (req, res) => {
 });
 
 /**************************************
- ******** Create new contract
+ ******** Create new Issue
  *************************************/
 handler.post(async (req, res) => {
   try {
     await dbConnect();
 
-    const contract = await Contract.create(req.body);
+    const issue = await Issue.create(req.body);
 
-    if (contract) res.status(201).json(contract);
+    if (issue) res.status(201).json(issue);
   } catch (error) {
     console.error(error);
     res.status(error?.status || 500).json({ error: error?.message || "Internal server error!" });

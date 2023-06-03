@@ -30,13 +30,13 @@ import {
   interestType,
   issueMethods,
   redemption,
-} from "./contract-constants";
+} from "./issue-constants";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { toast } from "react-toastify";
 
-export const ContractForm = () => {
+export const IssueForm = () => {
   const {
     register,
     handleSubmit,
@@ -56,10 +56,10 @@ export const ContractForm = () => {
         });
 
         try {
-          await axios.post("/api/contracts", cleanedData);
-          toast.success("Contract submitted successfully.");
+          await axios.post("/api/issues", cleanedData);
+          toast.success("New issue submitted successfully.");
         } catch (error) {
-          toast.error("Failed to add the contract.");
+          toast.error("Failed to add the issue.");
         }
         // reset();
 
@@ -72,7 +72,7 @@ export const ContractForm = () => {
     <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader subheader="Instrument Parameters" />
-        {/* <CardContent sx={{ pt: 0 }}>
+        <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
             <Grid container spacing={6}>
               <Grid xs={4} md={4}>
@@ -588,11 +588,9 @@ export const ContractForm = () => {
               </AccordionDetails>
             </Accordion>
           </Box>
-        </CardContent> */}
+        </CardContent>
 
         <Divider />
-
-        <input {...register("name")} />
 
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Button variant="contained" type="submit" disabled={isSubmitting}>

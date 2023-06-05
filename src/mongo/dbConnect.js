@@ -28,7 +28,9 @@ async function dbConnect() {
   }
 
   if (!cached.promise) {
-    const opts = {};
+    const opts = {
+      dbName: 'bch'
+    };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;

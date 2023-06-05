@@ -1,3 +1,4 @@
+import { PaperClipIcon, PencilSquareIcon, Square3Stack3DIcon } from "@heroicons/react/24/solid"
 import ChartBarIcon from "@heroicons/react/24/solid/ChartBarIcon";
 import CogIcon from "@heroicons/react/24/solid/CogIcon";
 import LockClosedIcon from "@heroicons/react/24/solid/LockClosedIcon";
@@ -20,10 +21,10 @@ export const items = [
   },
   {
     title: "New Issue",
-    path: "/new-issue",
+    path: "/issues/new-issue",
     icon: (
       <SvgIcon fontSize="small">
-        <UserIcon />
+        <PencilSquareIcon />
       </SvgIcon>
     ),
   },
@@ -32,7 +33,7 @@ export const items = [
     path: '/issues',
     icon: (
       <SvgIcon fontSize="small">
-        <UsersIcon />
+        <Square3Stack3DIcon />
       </SvgIcon>
     )
   },

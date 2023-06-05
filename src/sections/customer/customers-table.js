@@ -17,6 +17,7 @@ import {
 import { Scrollbar } from "src/components/scrollbar";
 import { getInitials } from "src/utils/get-initials";
 import dayjs from "dayjs";
+import { useRouter } from "next/router";
 
 export const CustomersTable = (props) => {
   const {
@@ -35,6 +36,8 @@ export const CustomersTable = (props) => {
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
+
+  const router = useRouter();
 
   return (
     <Card>
@@ -60,7 +63,7 @@ export const CustomersTable = (props) => {
                 <TableCell>ISIN</TableCell>
                 <TableCell>CFI</TableCell>
                 <TableCell>FISN</TableCell>
-                <TableCell>Created At</TableCell>
+                <TableCell>Submitted At</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -69,7 +72,13 @@ export const CustomersTable = (props) => {
                 const createdAt = dayjs(customer.createdAt).format("YYYY-MM-DD");
 
                 return (
-                  <TableRow hover key={customer._id} selected={isSelected}>
+                  <TableRow
+                    hover
+                    key={customer._id}
+                    selected={isSelected}
+                    onClick={() => router.push(`/issues/${customer._id}`)}
+                    sx={{ cursor: "pointer" }}
+                  >
                     {/* <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -88,9 +97,7 @@ export const CustomersTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>{customer.isin}</TableCell>
-                    <TableCell>
-                      {customer.cfi}
-                    </TableCell>
+                    <TableCell>{customer.cfi}</TableCell>
                     <TableCell>{customer.fisn}</TableCell>
                     <TableCell>{createdAt}</TableCell>
                   </TableRow>

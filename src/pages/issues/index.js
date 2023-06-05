@@ -70,51 +70,15 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           <Stack spacing={3}>
-            <Stack direction="row" justifyContent="space-between" spacing={4}>
+            <Stack direction="row" justifyContent="space-between" spacing={4} sx={{ mb: "1rem" }}>
               <Stack spacing={1}>
                 <Typography variant="h4">Submitted Issues</Typography>
-
-                {/* <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowUpOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Import
-                  </Button>
-                  <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon fontSize="small">
-                        <ArrowDownOnSquareIcon />
-                      </SvgIcon>
-                    )}
-                  >
-                    Export
-                  </Button>
-                </Stack> */}
+                <Typography variant="subtitle" component="p">
+                  Click on each row of the table to view the details of the issue
+                </Typography>
               </Stack>
-              <div>
-                {/* <Button
-                  startIcon={(
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
-                >
-                  Add
-                </Button> */}
-              </div>
             </Stack>
-            {/* <CustomersSearch /> */}
+
             <CustomersTable
               count={data.length}
               items={data}
